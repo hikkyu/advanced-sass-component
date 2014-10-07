@@ -1,0 +1,25 @@
+{
+  "name": "advanced-sass-component",
+  "version": "0.0.1",
+  "homepage": "https://github.com/hikkyu/advanced-sass-component",
+  "authors": [
+    "Damien Berseron <damien.berseron@me.com>"
+  ],
+  "description": "An elegant way to write sandbox SASS component",
+  "main": "index.scss",
+  "keywords": [
+    "sass",
+    "scss",
+    "component",
+    "components",
+    "module"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
