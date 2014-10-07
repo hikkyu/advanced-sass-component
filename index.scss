@@ -1,0 +1,55 @@
+/* Global components map
+======================== */
+$ASComponents: () !global;
+
+/* Mixin to add component
+========================= */
+@mixin ASCRegisterComponent($componentName, $componentVariationName, $componentVariationOptions: ()) {
+    @if map-has-key($componentVariationOptions, 'selector') {}
+    @else {
+        $componentVariationOptions: map-merge($componentVariationOptions, ('selector': $componentVariationName));
+    }
+
+    @if(map-has-key($ASComponents, $componentName)) {
+        $componentMap : map-get($ASComponents, $componentName);
+
+        $componentMap : map-merge($componentMap, (
+                $componentVariationName: $componentVariationOptions
+        ));
+
+        $ASComponents : map-merge($ASComponents, ($componentName: $componentMap)) !global;
+    }
+    @else {
+        $ASComponents: map-merge($ASComponents, (
+                $componentName: (
+                        $componentVariationName : $componentVariationOptions
+                )
+        )) !global;
+    }
+}
+
+/* Mixin to configure components map
+==================================== */
+@mixin ASCConfig($componentName, $componentVariationName, $componentVariationOptions) {
+    // $components(all) > $component(ex: "inlineList") > $componentVariationName(ex: "dashboardModulesList")
+    $components: ASCMerge($componentName, $componentVariationName, $componentVariationOptions);
+}
+
+/* Utils function to merge component options
+============================================ */
+@function ASCMerge($componentName, $componentVariationName, $componentVariationOptions) {
+    $component: map-get($ASComponents, $componentName);
+    $componentVariation: map-get($component, $componentVariationName);
+
+    $newComponentVariation: map-merge($componentVariation, $componentVariationOptions);
+    $newComponent: map-merge($component, ($componentVariationName: $newComponentVariation));
+
+    @return map-merge($ASComponents, ($componentName: $newComponent));
+}
+
+/* Mixin to call right placeholders
+=================================== */
+@mixin ASCExtend($placeholder, $skin) {
+    @extend #{$placeholder};
+    @extend #{$placeholder}-skin-#{$skin} !optional;
+}

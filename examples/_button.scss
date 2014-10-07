@@ -1,0 +1,33 @@
+@import '../index';
+
+/* Buttons
+==========
+
+    <button class="button1">Button</button>
+    <button class="button2">Button</button>
+    <button class="button3">Button</button>
+
+*/
+
+%asc-button {
+    display: inline-block;
+}
+
+%asc-button-skin-default {
+    color: white;
+    background: blue;
+}
+
+@mixin ASCButton($selector: '.button', $skin: 'default') {
+    #{$selector} {
+        @include ASCExtend('%asc-button', $skin);
+    }
+}
+
+@include ASCButton();
+
+%asc-button-skin-other-skin {
+    color: white;
+    background: red;
+}
+@include ASCButton('.test-btn', 'other-skin');
