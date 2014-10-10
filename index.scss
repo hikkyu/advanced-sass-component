@@ -2,6 +2,19 @@
 ======================== */
 $ASComponents: () !global;
 
+
+/* Utils function to merge component options
+============================================ */
+@function ASCMerge($componentName, $componentVariationName, $componentVariationOptions) {
+    $component: map-get($ASComponents, $componentName);
+    $componentVariation: map-get($component, $componentVariationName);
+
+    $newComponentVariation: map-merge($componentVariation, $componentVariationOptions);
+    $newComponent: map-merge($component, ($componentVariationName: $newComponentVariation));
+
+    @return map-merge($ASComponents, ($componentName: $newComponent));
+}
+
 /* Mixin to add component
 ========================= */
 @mixin ASCRegisterComponent($componentName, $componentVariationName, $componentVariationOptions: ()) {
@@ -32,19 +45,7 @@ $ASComponents: () !global;
 ==================================== */
 @mixin ASCConfig($componentName, $componentVariationName, $componentVariationOptions) {
     // $components(all) > $component(ex: "inlineList") > $componentVariationName(ex: "dashboardModulesList")
-    $components: ASCMerge($componentName, $componentVariationName, $componentVariationOptions);
-}
-
-/* Utils function to merge component options
-============================================ */
-@function ASCMerge($componentName, $componentVariationName, $componentVariationOptions) {
-    $component: map-get($ASComponents, $componentName);
-    $componentVariation: map-get($component, $componentVariationName);
-
-    $newComponentVariation: map-merge($componentVariation, $componentVariationOptions);
-    $newComponent: map-merge($component, ($componentVariationName: $newComponentVariation));
-
-    @return map-merge($ASComponents, ($componentName: $newComponent));
+    $ASComponents: ASCMerge($componentName, $componentVariationName, $componentVariationOptions) !global;
 }
 
 /* Mixin to call right placeholders
