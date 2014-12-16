@@ -24,10 +24,16 @@
     }
 }
 
-// Default declaration
-@include ASCRegisterComponent('ASCButton', '.button');
-@include ASCRegisterComponent('ASCButton', '.button2');
+// Test for unregister component
+@include ASCUnregister('ASCButton', '.button3');
 
+// Default declaration
+@include ASCRegister('ASCButton', '.button');
+@include ASCRegister('ASCButton', '.button2');
+@include ASCRegister('ASCButton', '.button3');
+
+// Test for unregister variation
+@include ASCUnregister('ASCButton', '.button999');
 
 /* Other Skin
 ============= */
@@ -37,10 +43,12 @@
 }
 
 // Other skin usage
-@include ASCRegisterComponent('ASCButton', 'none-selector', (
+@include ASCRegister('ASCButton', 'none-selector', (
         'selector': '.test-btn',
         "skin": "otherSkin"
 ));
+
+@include ASCUnregister('ASCButton', '.button3');
 
 
 /* Expose method

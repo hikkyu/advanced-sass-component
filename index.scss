@@ -17,7 +17,7 @@ $ASComponents: () !global;
 
 /* Mixin to add component
 ========================= */
-@mixin ASCRegisterComponent($componentName, $componentVariationName, $componentVariationOptions: ()) {
+@mixin ASCRegister($componentName, $componentVariationName, $componentVariationOptions: ()) {
     @if map-has-key($componentVariationOptions, 'selector') {}
     @else {
         $componentVariationOptions: map-merge($componentVariationOptions, ('selector': $componentVariationName));
@@ -38,6 +38,30 @@ $ASComponents: () !global;
                         $componentVariationName : $componentVariationOptions
                 )
         )) !global;
+    }
+}
+
+@mixin ASCRegisterComponent($componentName, $componentVariationName, $componentVariationOptions: ()) {
+    @warn 'ASCRegisterComponent is now deprecated use ASCRegister instead';
+    @include ASCRegister($componentName, $componentVariationName, $componentVariationOptions);
+}
+
+/* Mixin to remove a component
+============================== */
+@mixin ASCUnregister($componentName, $componentVariationName) {
+    @if (map-has-key($ASComponents, $componentName)) {
+        $componentMap: map-get($ASComponents, $componentName);
+
+        @if (map-has-key($componentMap, $componentVariationName)) {
+            $componentMap: map-remove($componentMap, $componentVariationName);
+            $ASComponents: map-merge($ASComponents, ($componentName: $componentMap)) !global;
+        }
+        @else {
+            @warn 'Component "' + $componentName + '" doesn\'t have "'+ $componentVariationName +'" variation';
+        }
+    }
+    @else {
+        @warn 'Component "' + $componentName + '" is not registered';
     }
 }
 

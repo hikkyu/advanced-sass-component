@@ -80,3 +80,8 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+# Project
+.sass-cache
+*.css
+*.map
